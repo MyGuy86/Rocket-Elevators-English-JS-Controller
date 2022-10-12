@@ -70,13 +70,13 @@ class Column {
         // for (let elevator of this.elevatorList){
             // for (let i = 0; i < this.elevatorList.length; i++){
         this.elevatorList.forEach((elevator) => {
-            if (requestedFloor == elevator.currentFloor && elevator.status == "stopped" && requestedDirection == elevator.direction){
+            if (requestedFloor === elevator.currentFloor && elevator.status === "stopped" && requestedDirection === elevator.direction){
                 bestElevatorInformations = this.checkIfElevatorIsBetter(1, elevator, bestElevatorInformations, requestedFloor)
             }
-            else if (requestedFloor > elevator.currentFloor && elevator.direction == "up" && requestedDirection == elevator.direction){
+            else if (requestedFloor > elevator.currentFloor && elevator.direction === "up" && requestedDirection === elevator.direction){
                 bestElevatorInformations = this.checkIfElevatorIsBetter(2, elevator, bestElevatorInformations, requestedFloor)
             }
-            else if (requestedFloor < elevator.currentFloor && elevator.direction == "down" && requestedDirection == elevator.direction){
+            else if (requestedFloor < elevator.currentFloor && elevator.direction === "down" && requestedDirection === elevator.direction){
                 bestElevatorInformations = this.checkIfElevatorIsBetter(2, elevator, bestElevatorInformations, requestedFloor)
             }
             else if (elevator.status= "idle"){
@@ -97,7 +97,7 @@ class Column {
             bestElevatorInformations.bestElevator = newElevator
             bestElevatorInformations.referenceGap = Math.abs(newElevator.currentFloor - floor)
         }
-        else if (bestElevatorInformations.bestScore = scoreToCheck){
+        else if (bestElevatorInformations.bestScore == scoreToCheck){
             let gap = Math.abs(newElevator.currentFloor - floor)
             if (bestElevatorInformations.referenceGap > gap){
                 bestElevatorInformations.bestElevator = newElevator
@@ -144,7 +144,7 @@ class Elevator {
     }
 
     requestFloor(floor){
-        floor = 1
+        this.floorRequestList.push(floor)
         this.move()
         // call(this.operateDoors)
     }  
@@ -179,10 +179,10 @@ class Elevator {
 
     
     sortFloorList() {
-        if (this.direction = "up") {
+        if (this.direction == "up") {
             this.floorRequestList.sort(function( a, b){return a-b})
         }
-        else if (this.direction = "down") {
+        else if (this.direction == "down") {
             this.floorRequestList.sort(function( a, b){return b-a})
         }
     }
