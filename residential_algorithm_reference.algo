@@ -81,20 +81,20 @@ DEFINE Column USING _id AND _status AND _amountOfFloors AND _amountOfElevators
         RETURN bestElevator
     ENDSEQUENCE
 
-    SEQUENCE checkIfElevatorIsBetter USING scoreToCheck AND newElevator AND bestScore AND referenceGap AND bestElevator AND floor RETURNING bestElevatorInformations
-        IF scoreToCheck IS LESS THAN bestScore THEN
-            SET bestScore TO scoreToCheck
-            SET bestElevator TO newElevator
-            SET referenceGap TO ABSOLUTE VALUE OF newElevator currentFloor - floor
-        ELSE IF bestScore EQUALS scoreToCheck
-            SET gap TO ABSOLUTE VALUE OF newElevator currentFloor - floor
-            IF referenceGap IS GREATER THAN gap THEN
-                SET bestElevator TO newElevator
-                SET referenceGap TO gap
-            ENDIF
-        ENDIF
-        RETURN bestElevator AND bestScore AND referenceGap AS bestElevatorInformations
-    ENDSEQUENCE
+    // SEQUENCE checkIfElevatorIsBetter USING scoreToCheck AND newElevator AND bestScore AND referenceGap AND bestElevator AND floor RETURNING bestElevatorInformations
+    //     IF scoreToCheck IS LESS THAN bestScore THEN
+    //         SET bestScore TO scoreToCheck
+    //         SET bestElevator TO newElevator
+    //         SET referenceGap TO ABSOLUTE VALUE OF newElevator currentFloor - floor
+    //     ELSE IF bestScore EQUALS scoreToCheck
+    //         SET gap TO ABSOLUTE VALUE OF newElevator currentFloor - floor
+    //         IF referenceGap IS GREATER THAN gap THEN
+    //             SET bestElevator TO newElevator
+    //             SET referenceGap TO gap
+    //         ENDIF
+    //     ENDIF
+    //     RETURN bestElevator AND bestScore AND referenceGap AS bestElevatorInformations
+    // ENDSEQUENCE
 
 ENDDEFINE '//Column
 
@@ -109,55 +109,56 @@ DEFINE Elevator USING _id AND _status AND _amountOfFloors AND _currentFloor
 
     CALL THIS createFloorRequestButtons WITH _amountOfFloors
 
-    SEQUENCE createFloorRequestButtons USING _amountOfFloors
-        SET buttonFloor TO 1
-        FOR _amountOfFloors
-            SET floorRequestButton TO NEW FloorRequestButton WITH floorRequestButtonID AND OFF AND buttonFloor '//id, status, floor
-            ADD floorRequestButton TO THIS floorButtonsList
-            INCREMENT buttonFloor
-            INCREMENT floorRequestButtonID
-        ENDFOR
-    ENDSEQUENCE
+    // SEQUENCE createFloorRequestButtons USING _amountOfFloors
+    //     SET buttonFloor TO 1
+    //     FOR _amountOfFloors
+    //         SET floorRequestButton TO NEW FloorRequestButton WITH floorRequestButtonID AND OFF AND buttonFloor '//id, status, floor
+    //         ADD floorRequestButton TO THIS floorButtonsList
+    //         INCREMENT buttonFloor
+    //         INCREMENT floorRequestButtonID
+    //     ENDFOR
+    // ENDSEQUENCE
 
-    '//Simulate when a user press a button inside the elevator
-    SEQUENCE requestFloor USING floor
-        ADD floor TO THIS requestList
-        CALL THIS move
-        CALL THIS operateDoors
-    ENDSEQUENCE
+    // SEQUENCE requestFloor
+    // Simulate when a user press a button inside the elevator
+    // SEQUENCE requestFloor USING floor
+    //     ADD floor TO THIS requestList
+    //     CALL THIS move
+    //     CALL THIS operateDoors
+    // ENDSEQUENCE
 
-    SEQUENCE move 
-        WHILE THIS requestList IS NOT empty
-            SET destination TO first element of THIS requestList
-            SET THIS status TO moving
-            IF THIS currentFloor IS LESS THAN destination THEN
-                SET THIS direction TO up
-                CALL THIS sortFloorList
-                WHILE THIS currentFloor IS LESS THAN destination
-                    INCREMENT THIS currentFloor
-                    SET THIS screenDisplay TO THIS currentFloor
-                ENDWHILE
-            ELSE IF THIS currentFloor IS GREATER THAN destination THEN
-                SET THIS direction TO down
-                CALL THIS sortFloorList
-                WHILE THIS currentFloor IS GREATER THAN destination
-                    DECREMENT THIS currentFloor
-                    SET THIS screenDisplay TO THIS currentFloor
-                ENDWHILE
-            ENDIF
-            SET THIS status TO stopped
-            REMOVE first element OF THIS requestList
-        ENDWHILE
-        SET THIS status TO idle
-    ENDSEQUENCE
+    // SEQUENCE move 
+    //     WHILE THIS requestList IS NOT empty
+    //         SET destination TO first element of THIS requestList
+    //         SET THIS status TO moving
+    //         IF THIS currentFloor IS LESS THAN destination THEN
+    //             SET THIS direction TO up
+    //             CALL THIS sortFloorList
+    //             WHILE THIS currentFloor IS LESS THAN destination
+    //                 INCREMENT THIS currentFloor
+    //                 SET THIS screenDisplay TO THIS currentFloor
+    //             ENDWHILE
+    //         ELSE IF THIS currentFloor IS GREATER THAN destination THEN
+    //             SET THIS direction TO down
+    //             CALL THIS sortFloorList
+    //             WHILE THIS currentFloor IS GREATER THAN destination
+    //                 DECREMENT THIS currentFloor
+    //                 SET THIS screenDisplay TO THIS currentFloor
+    //             ENDWHILE
+    //         ENDIF
+    //         SET THIS status TO stopped
+    //         REMOVE first element OF THIS requestList
+    //     ENDWHILE
+    //     SET THIS status TO idle
+    // ENDSEQUENCE
 
-    SEQUENCE sortFloorList
-        IF THIS direction IS up
-            SORT THIS requestList ASCENDING
-        ELSE 
-            SORT THIS requestList DESCENDING
-        ENDIF
-    ENDSEQUENCE
+    // SEQUENCE sortFloorList
+    //     IF THIS direction IS up
+    //         SORT THIS requestList ASCENDING
+    //     ELSE 
+    //         SORT THIS requestList DESCENDING
+    //     ENDIF
+    // ENDSEQUENCE
 
     SEQUENCE operateDoors
         SET THIS door status TO opened
