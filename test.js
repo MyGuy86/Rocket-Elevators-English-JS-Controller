@@ -1,5 +1,5 @@
 var _ = require('lodash');
-const { Column, Elevator, CallButton, FloorRequestButton, Door } = require('./residential_controller.js')
+const { Column, Elevator, CallButton, FloorRequestButton, Door } = require('./residential_controller')
 
 const scenario = (column, requestedFloor, direction, destination) => {
     let tempColumn = _.cloneDeep(column);

@@ -1,6 +1,4 @@
-// const { flowRight, floor } = require("lodash")
 let elevatorID= 1
-// let floorRequestButton = 1
 let callButtonID = 1
 
 
@@ -47,10 +45,7 @@ class Column {
 
 
     requestElevator (floor, direction){
-        // Elevator.findElevator.call (floor, direction)  
-        //     return bestElevator   
         let elevator = this.findElevator(floor, direction) 
-            // return bestElevator
         elevator.floorRequestList.push(floor)
         elevator.move()
         return elevator
@@ -59,16 +54,13 @@ class Column {
 
 
     findElevator (requestedFloor, requestedDirection){
-        // let bestElevator
-        // let bestScore = 5
-        // let referenceGap = 10000000
+
         let bestElevatorInformations ={
             bestElevator: null, 
             bestScore: 5,
             referenceGap: 10000000
         }
-        // for (let elevator of this.elevatorList){
-            // for (let i = 0; i < this.elevatorList.length; i++){
+
         this.elevatorList.forEach((elevator) => {
             if (requestedFloor === elevator.currentFloor && elevator.status === "stopped" && requestedDirection === elevator.direction){
                 bestElevatorInformations = this.checkIfElevatorIsBetter(1, elevator, bestElevatorInformations, requestedFloor)
@@ -82,10 +74,7 @@ class Column {
             else if (elevator.status= "idle"){
                 bestElevatorInformations = this.checkIfElevatorIsBetter(3, elevator, bestElevatorInformations, requestedFloor)
             }
-        // bestScore = bestElevatorInformations && bestScore
-        // referenceGap = bestElevatorInformations && referenceGap
-        // console.log('************************************************')
-        // console.log(bestElevatorInformations.bestElevator)
+
     })
     return bestElevatorInformations.bestElevator 
     }
@@ -120,13 +109,7 @@ class Elevator {
         this.floorRequestButtonList =[]
         this.floorRequestList = []
 
-        // let buttonFloor = 1
-        // let floorRequestButtonID = 1
-        // for (let i = 0; i < _amountOfFloors; i++){
-        //     this.floorRequestList.push(new FloorRequestButton(floorRequestButtonID, buttonFloor))
-        //     buttonFloor++
-        //     floorRequestButtonID++
-        // }
+
         this.floorRequestsButtons(_amountOfFloors)
     };
 
@@ -195,7 +178,6 @@ class Elevator {
 class CallButton {
     constructor(_id, _floor, _direction) {
         this.ID = _id
-        // this.status = "status"
         this.floor = _floor
         this.direction = _direction
     }
